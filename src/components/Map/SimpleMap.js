@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import SearchBox from '../SearchBox/SearchBox';
+import { useSelector, useDispatch } from 'react-redux';
+import { addPlace, ADD_PLACE } from '../../store/actions/places';
 
 const mapStyles = {
   width: '100%',
@@ -8,18 +11,26 @@ const mapStyles = {
 
 export const SimpleMap = (props) => {
 
-  const [activeMarker, setActiveMarker] = useState(undefined)
-
-  const markers = [
-    {
-      name: 'A', 
-      position: {lat: 37.762391, lng: -122.439192}
-    },
-    {
-      name: 'B',
-      position: {lat: 37.759703, lng: -122.428093}
+  const getCurrentLocation = () => {
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const coords = pos.coords;
+        return {
+            lat: coords.latitude,
+            lng: coords.longitude
+          };
+      });
     }
-  ]
+  }
+
+  const [activeMarker, setActiveMarker] = useState(undefined);
+  const [currentLocation, setCurrentLocation] = useState(getCurrentLocation());
+  const places = useSelector(state => state.places);
+  const dispatch = useDispatch()
+  const addPlaceMap = useCallback(
+    (place) => dispatch(addPlace(place)),
+    [dispatch]
+  )
 
   const onMarkerClick = (props, marker, e) => {
     setActiveMarker({marker, place: props})
@@ -31,20 +42,20 @@ export const SimpleMap = (props) => {
     }
   };
 
+
   return (
     <Map
       google={props.google}
       zoom={14}
       style={mapStyles}
-      initialCenter={{
-        lat: -1.2884,
-        lng: 36.8233
-      }}
+      initialCenter={currentLocation}
     >
-      {markers && markers.map(m => {
+      <SearchBox addPlace={addPlaceMap} />
+      {places && places.map(p => {
         return <Marker 
-        name={m.name} 
-        position={m.position}
+        key={p.place_id}
+        name={p.name} 
+        position={{lat: p.geometry.location.lat(), lng: p.geometry.location.lng()}}
         onClick={onMarkerClick}
         />
       })}
