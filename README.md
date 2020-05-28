@@ -8,11 +8,15 @@ yarn install
 
 ## Para ejecutar
 ``
-yarn start
+REACT_APP_APY_KEY={aqui la clave de Google} yarn start
 ``
 
-Se utilizo una libreria llamada google-maps-react para facilitar la comunicacion con la API de Google.
-Se cumplio con la funcionalidad requerida
+
+
+## Solución
+Se utilizó CRA para crear la aplicación. También la librería llamada google-maps-react para facilitar la comunicación con la API de Google.
+
+De lo solicitado, se muestra el mapa y la barra de búsqueda. Se puede buscar lugares y marcarlos en el mapa. Cada "Marker" se guarda en el store de Redux y se mantienen en el mapa. Si se hace dobleclick el marker se muestra info del lugar.
 
 ## Falto hacer
-Dado el tiempo no pude agregar los tests. Tambien el uso de la secret key en el codigo esta fatal, pero tuve que optar por hacer la parte teorica. Utilizando process.env.SECRET_KEY es la solucion, pero para eso debia configurar webpack y nuevamente el tiempo no me fue suficiente.
+Dado el tiempo no pude agregar mas tests, se dejo uno simple que renderiza el mapa a modo de ejemplo.

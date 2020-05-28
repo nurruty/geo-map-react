@@ -40,6 +40,7 @@ export const SimpleMap = (props) => {
     >
       <SearchBox addPlace={addPlaceMap} />
       {places && places.map(p => {
+
         return <Marker 
         key={p.place_id}
         name={p.name} 
@@ -53,7 +54,9 @@ export const SimpleMap = (props) => {
           onClose={onClose}
         >
            <div>
-            <h4>{activeMarker.place.name}</h4>
+            <h3>{activeMarker.place.name}</h3>
+            <div>Lat: {activeMarker.place.mapCenter.lat}</div>
+            <div>Lng: {activeMarker.place.mapCenter.lng}</div>
           </div>
         </InfoWindow>}
     </Map>
@@ -62,5 +65,5 @@ export const SimpleMap = (props) => {
 
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyA-HqtvtPceZbIZnhUNYpcZgXZ_SQ3BJM0'
+  apiKey: process.env.REACT_APP_API_KEY
 })(SimpleMap);

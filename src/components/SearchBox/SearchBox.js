@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import './SearchBox.css'
 
 
 
@@ -38,6 +39,7 @@ class SearchBox extends Component {
       map.setZoom(17);
     }
 
+    console.log(place)
     addPlace(place);
     this.searchInput.blur();
   };
