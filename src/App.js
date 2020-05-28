@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import SimpleMap from './components/Map/SimpleMap'
 import './App.css';
 

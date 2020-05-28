@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SearchBox from '../SearchBox/SearchBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { addPlace, ADD_PLACE } from '../../store/actions/places';
+import { addPlace } from '../../store/actions/places';
 
 const mapStyles = {
   width: '100%',
@@ -11,20 +11,8 @@ const mapStyles = {
 
 export const SimpleMap = (props) => {
 
-  const getCurrentLocation = () => {
-    if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        const coords = pos.coords;
-        return {
-            lat: coords.latitude,
-            lng: coords.longitude
-          };
-      });
-    }
-  }
-
   const [activeMarker, setActiveMarker] = useState(undefined);
-  const [currentLocation, setCurrentLocation] = useState(getCurrentLocation());
+  const [currentLocation, setCurrentLocation] = useState({lat: 41.3827072, lng: 2.1168128});
   const places = useSelector(state => state.places);
   const dispatch = useDispatch()
   const addPlaceMap = useCallback(
@@ -32,7 +20,7 @@ export const SimpleMap = (props) => {
     [dispatch]
   )
 
-  const onMarkerClick = (props, marker, e) => {
+  const onMarkerClicked = (props, marker, e) => {
     setActiveMarker({marker, place: props})
   }
 
@@ -56,7 +44,7 @@ export const SimpleMap = (props) => {
         key={p.place_id}
         name={p.name} 
         position={{lat: p.geometry.location.lat(), lng: p.geometry.location.lng()}}
-        onClick={onMarkerClick}
+        onClick={onMarkerClicked}
         />
       })}
        {activeMarker && <InfoWindow
@@ -71,6 +59,7 @@ export const SimpleMap = (props) => {
     </Map>
   );
 }
+
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyA-HqtvtPceZbIZnhUNYpcZgXZ_SQ3BJM0'
