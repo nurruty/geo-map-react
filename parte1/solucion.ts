@@ -10,7 +10,7 @@ class RegisteredUser {
   }
 
   getTotal() {
-    return this.service.calcTotalUser(this.id)
+    return this.service.getTotal(this.id)
   }
 }
 
