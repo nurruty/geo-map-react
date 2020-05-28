@@ -18,7 +18,6 @@ class SearchBox extends Component {
   }
 
   componentDidMount({ map, google } = this.props) {
-    console.log(map)
     this.searchBox = new google.maps.places.SearchBox(this.searchInput);
     this.searchBox.addListener('places_changed', this.onPlacesChanged);
     //this.searchBox.bindTo('bounds', map);
